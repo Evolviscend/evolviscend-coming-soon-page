@@ -1,24 +1,327 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>evolviscend-coming-soon-page</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolviscend - Stories Woven in Thread and Timber</title>
+    <meta name="description" content="Evolviscend brings authentic, handcrafted cultural goods directly from artisans in India and China. Join our waitlist for early access.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-    <meta property="og:title" content="evolviscend-coming-soon-page" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+        // Firebase configuration placeholder
+        const firebaseConfig = __firebase_config;
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        // Make functions globally available
+        window.submitEmail = async function(event) {
+            event.preventDefault();
+            
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value.trim();
+            const submitButton = document.getElementById('submitButton');
+            const form = document.getElementById('emailForm');
+            const thankYouMessage = document.getElementById('thankYouMessage');
+            
+            if (!email) return;
+            
+            try {
+                // Disable button and show loading state
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<svg class="animate-spin h-5 w-5 mx-auto" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+                
+                // Add email to Firestore
+                await addDoc(collection(db, 'waitlist'), {
+                    email: email,
+                    timestamp: serverTimestamp()
+                });
+                
+                // Hide form and show thank you message
+                form.style.display = 'none';
+                thankYouMessage.style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error adding email to waitlist:', error);
+                submitButton.disabled = false;
+                submitButton.textContent = 'Unlock My Early Access';
+                alert('There was an error signing you up. Please try again.');
+            }
+        };
+    </script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'charcoal': '#2D3748',
+                        'warm-white': '#FEFEFE',
+                        'terracotta': '#D69E2E',
+                        'gold': '#F6E05E',
+                        'sage': '#68D391',
+                        'cream': '#FFFAF0'
+                    }
+                }
+            }
+        }
+        
+        // Scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in-up');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+    
+    <style>
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(45, 55, 72, 0.7), rgba(45, 55, 72, 0.7)), url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .masonry {
+            column-count: 3;
+            column-gap: 1rem;
+        }
+        
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .masonry {
+                column-count: 1;
+            }
+            .hero-bg {
+                background-attachment: scroll;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .masonry {
+                column-count: 2;
+            }
+        }
+    </style>
+</head>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+<body class="font-inter text-charcoal bg-warm-white">
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center justify-center relative">
+        <div class="container mx-auto px-6 text-center text-white">
+            <!-- Logo -->
+            <div class="mb-8 scroll-animate">
+                <h1 class="text-4xl md:text-6xl font-bold tracking-wide text-gold mb-2">Evolviscend</h1>
+                <div class="w-24 h-1 bg-terracotta mx-auto"></div>
+            </div>
+            
+            <!-- Main Headlines -->
+            <div class="mb-12 scroll-animate">
+                <h2 class="text-3xl md:text-5xl font-light mb-6 leading-tight">
+                    Stories Woven in Thread and Timber.
+                </h2>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed opacity-90">
+                    We're traveling the world to bring authentic, handcrafted treasures directly from the artisan's workshop to your doorstep. Launching Soon.
+                </p>
+            </div>
+            
+            <!-- Email Signup Form -->
+            <div class="max-w-md mx-auto scroll-animate">
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                    <h3 class="text-xl font-semibold mb-3 text-gold">Be the First to Know</h3>
+                    <p class="text-sm mb-6 opacity-90">Join our founding community for 15% off your first order and exclusive early access.</p>
+                    
+                    <form id="emailForm" onsubmit="submitEmail(event)" class="space-y-4">
+                        <input 
+                            type="email" 
+                            id="email" 
+                            placeholder="Enter your email address" 
+                            required
+                            class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-terracotta focus:border-transparent"
+                        >
+                        <button 
+                            type="submit" 
+                            id="submitButton"
+                            class="w-full bg-terracotta hover:bg-terracotta/90 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+                        >
+                            Unlock My Early Access
+                        </button>
+                    </form>
+                    
+                    <div id="thankYouMessage" style="display: none;" class="text-center">
+                        <div class="text-gold text-5xl mb-4">✨</div>
+                        <h3 class="text-xl font-semibold mb-2 text-gold">Thank You!</h3>
+                        <p class="text-sm opacity-90">You're now part of our founding community. We'll be in touch soon with exclusive updates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <!-- What's Coming Section -->
+    <section class="py-20 bg-cream">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="text-3xl md:text-4xl font-light mb-4">What's Coming</h2>
+                <div class="w-16 h-1 bg-terracotta mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-12">
+                <!-- Heirloom Sarees -->
+                <div class="text-center scroll-animate">
+                    <div class="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-charcoal">Heirloom Sarees</h3>
+                    <p class="text-gray-600 leading-relaxed">Wear a piece of history with handwoven textiles from the master weavers of India.</p>
+                </div>
+                
+                <!-- Artisanal Toys -->
+                <div class="text-center scroll-animate">
+                    <div class="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-charcoal">Artisanal Toys</h3>
+                    <p class="text-gray-600 leading-relaxed">Spark imagination with safe, non-toxic, and beautifully crafted wooden toys from traditional toymakers.</p>
+                </div>
+                
+                <!-- Ethical Partnership -->
+                <div class="text-center scroll-animate">
+                    <div class="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-charcoal">Ethical Partnership</h3>
+                    <p class="text-gray-600 leading-relaxed">Every purchase directly supports the artisan families and communities who create these timeless goods.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Gallery Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="text-3xl md:text-4xl font-light mb-4">Crafted with Love</h2>
+                <div class="w-16 h-1 bg-terracotta mx-auto"></div>
+            </div>
+            
+            <div class="masonry">
+                <div class="masonry-item scroll-animate">
+                    <img 
+                        src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                        alt="Artisan woman holding colorful saree" 
+                        class="w-full rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                    >
+                </div>
+                <div class="masonry-item scroll-animate">
+                    <img 
+                        src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                        alt="Handcrafted wooden toy in child's hands" 
+                        class="w-full rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                    >
+                </div>
+                <div class="masonry-item scroll-animate">
+                    <img 
+                        src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                        alt="Weaver's hands working on traditional loom" 
+                        class="w-full rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                    >
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <!-- Logo -->
+                <h3 class="text-2xl font-bold text-gold mb-6">Evolviscend</h3>
+                
+                <!-- Social Links -->
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="#" class="text-white/70 hover:text-terracotta transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.112.221.083.343-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24c6.624 0 11.99-5.367 11.99-12C24.007 5.367 18.641.001.012.001z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-white/70 hover:text-terracotta transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-white/70 hover:text-terracotta transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- Copyright -->
+                <p class="text-white/70 text-sm">
+                    © 2025 Evolviscend LLC. Built with purpose in Frisco, Texas.
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
 </html>
