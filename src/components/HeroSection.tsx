@@ -11,10 +11,8 @@ const HeroSection = () => {
           <img 
             src="/lovable-uploads/d1aee87b-96f7-44b2-bf71-e055289691a5.png" 
             alt="Evolviscend Logo" 
-            className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4"
+            className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-8 opacity-90"
           />
-          <h1 className="text-4xl md:text-6xl font-bold tracking-wide text-gold mb-2">Evolviscend</h1>
-          <div className="w-24 h-1 bg-terracotta mx-auto"></div>
         </div>
         
         {/* Main Headlines */}
