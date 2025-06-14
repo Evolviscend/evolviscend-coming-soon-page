@@ -7,7 +7,14 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="text-center">
           {/* Logo */}
-          <h3 className="text-2xl font-bold text-gold mb-6">Evolviscend</h3>
+          <div className="mb-6">
+            <img 
+              src="/lovable-uploads/d1aee87b-96f7-44b2-bf71-e055289691a5.png" 
+              alt="Evolviscend Logo" 
+              className="w-16 h-16 mx-auto mb-2"
+            />
+            <h3 className="text-2xl font-bold text-gold">Evolviscend</h3>
+          </div>
           
           {/* Social Links */}
           <div className="flex justify-center space-x-6 mb-8">
